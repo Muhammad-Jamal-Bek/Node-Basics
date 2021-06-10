@@ -69,6 +69,13 @@ function unknownCommand(c){
 function hello(){
   console.log('Hi there buddy, whassup?!')
 }
+
+/** 
+*Shows all available commands
+*
+*
+* @returns {void}
+*/
 function help(){
   console.log($c);
 }
