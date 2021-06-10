@@ -37,8 +37,8 @@ function onDataReceived(text) {
   if (text.toLocaleLowerCase() === 'quit\n' || text.toLowerCase()==='exit\n') {
     quit();
   }
-  else if(text === 'hello\n'){
-    hello();
+  else if (text.toLowerCase().slice(0, 6)==='hello ' || text.toLowerCase().slice(0, 5)==='hello'){
+    hello(text);
   }
   else if(text.toLocaleLowerCase()==='help\n'){
     help()
@@ -66,8 +66,12 @@ function unknownCommand(c){
  *
  * @returns {void}
  */
-function hello(){
-  console.log('Hi there buddy, whassup?!')
+function hello(x){
+  if(x.toLowerCase().slice(0, 6)==='hello '){
+    console.log(x=x.replace("\n","!"));
+  }
+  else{
+  console.log('hello!')}
 }
 
 /** 
