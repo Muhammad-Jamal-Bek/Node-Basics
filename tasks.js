@@ -16,7 +16,6 @@ function startApp(name){
   console.log(`Welcome to ${name}'s application!`)
   console.log("^^ -------------------- :D")
 }
-$c=["help: to show this list","quite or exit: to close the app","hello: to greet you ^^"]
 
 /**
  * Decides what to do depending on the data that was received
@@ -74,6 +73,8 @@ function hello(x){
   console.log('hello!')}
 }
 
+
+$c=["help: to show this list","quite or exit: to close the app","hello: greets you with or without any value you enter after it!"]
 /** 
 *Shows all available commands
 *
