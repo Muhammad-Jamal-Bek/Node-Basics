@@ -16,7 +16,7 @@ function startApp(name){
   console.log(`Welcome to ${name}'s application!`)
   console.log("^^ -------------------- :D")
 }
-
+$c=["help: to show this list","quite or exit: to close the app","hello: to greet you ^^"]
 
 /**
  * Decides what to do depending on the data that was received
@@ -39,6 +39,9 @@ function onDataReceived(text) {
   }
   else if(text === 'hello\n'){
     hello();
+  }
+  else if(text.toLocaleLowerCase()==='help\n'){
+    help()
   }
   else{
     unknownCommand(text);
@@ -65,6 +68,9 @@ function unknownCommand(c){
  */
 function hello(){
   console.log('Hi there buddy, whassup?!')
+}
+function help(){
+  console.log($c);
 }
 
 
