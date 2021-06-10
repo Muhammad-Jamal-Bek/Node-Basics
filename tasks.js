@@ -18,6 +18,15 @@ function startApp(name){
 }
 
 /**
+ * Global variables 
+ *
+ */
+var h=["help: to show this list","quite or exit: to close the app",
+"hello: greets you with or without any value you enter after it!"];
+
+var listy=["1st task","2nd task"];
+
+/**
  * Decides what to do depending on the data that was received
  * This function receives the input sent by the user.
  * 
@@ -36,14 +45,17 @@ function onDataReceived(text) {
   if (text.toLocaleLowerCase() === 'quit\n' || text.toLowerCase()==='exit\n') {
     quit();
   }
-  else if (text.toLowerCase().slice(0, 6)==='hello ' || text.toLowerCase().slice(0, 5)==='hello'){
+  else if (text.toLowerCase().trim().slice(0, 5)==='hello'){
     hello(text);
   }
   else if(text.toLocaleLowerCase()==='help\n'){
     help()
   }
-  else if(text.toLocaleLowerCase()==='list\n'){
+  else if(text.toLocaleLowerCase().trim().slice(0,4)==='list'){
     list(text);
+  }
+  else if (text.toLowerCase().trim().slice(0, 3)==='add'){
+    add(text);
   }
   else{
     unknownCommand(text);
@@ -69,15 +81,18 @@ function unknownCommand(c){
  * @returns {void}
  */
 function hello(x){
-  if(x.toLowerCase().slice(0, 6)==='hello '){
-    console.log(x=x.replace("\n","!"));
+  
+  if(x.toLowerCase().trim() === 'hello'){
+    console.log('hello!')
   }
   else{
-  console.log('hello!')}
+  y=x.trim()
+  console.log(y+"!");
+  }
 }
 
 
-var c=["help: to show this list","quite or exit: to close the app","hello: greets you with or without any value you enter after it!"]
+
 /** 
 *Shows all available commands
 *
@@ -85,16 +100,26 @@ var c=["help: to show this list","quite or exit: to close the app","hello: greet
 * @returns {void}
 */
 function help(){
-  console.log(c);
+  console.log(h);
 }
 
 
-var listy=["1st task","2nd task"];
 function list(x){
   var order=1;
   for (var i=0;i<listy.length;i++){
     console.log(order+"-"+listy[i]+"\n")
     order+=1;
+  }
+}
+function add(x){
+  y=x.toLowerCase().trim();
+  if(y==="add"){
+    console.log("Please enter a value to be added!")
+  }
+  else{
+    z=y.slice(4, y.length+1)
+    listy.push(z.trim());
+    console.log('A new item has been added to tasks! enter "list" to view tasks')
   }
 }
 
