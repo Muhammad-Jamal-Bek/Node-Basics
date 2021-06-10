@@ -42,6 +42,9 @@ function onDataReceived(text) {
   else if(text.toLocaleLowerCase()==='help\n'){
     help()
   }
+  else if(text.toLocaleLowerCase()==='list\n'){
+    list(text);
+  }
   else{
     unknownCommand(text);
   }
@@ -74,7 +77,7 @@ function hello(x){
 }
 
 
-$c=["help: to show this list","quite or exit: to close the app","hello: greets you with or without any value you enter after it!"]
+var c=["help: to show this list","quite or exit: to close the app","hello: greets you with or without any value you enter after it!"]
 /** 
 *Shows all available commands
 *
@@ -82,9 +85,18 @@ $c=["help: to show this list","quite or exit: to close the app","hello: greets y
 * @returns {void}
 */
 function help(){
-  console.log($c);
+  console.log(c);
 }
 
+
+var listy=["1st task","2nd task"];
+function list(x){
+  var order=1;
+  for (var i=0;i<listy.length;i++){
+    console.log(order+"-"+listy[i]+"\n")
+    order+=1;
+  }
+}
 
 /**
  * Exits the application
