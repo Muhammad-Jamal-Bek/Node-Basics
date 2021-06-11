@@ -22,7 +22,9 @@ function startApp(name){
  *
  */
 var h=["help: to show this list","quite or exit: to close the app",
-"hello: greets you with or without any value you enter after it!"];
+"hello: greets you with or without any value you enter after it!", "list: displays a list of the tasks."
+,"add: adds a new task to the bottum of the task list",
+"remove: by itself it removes the last item on the list but if you input 'remove number' it removes the item with that number in the list."];
 
 var listy=["1st task","2nd task"];
 
@@ -97,13 +99,15 @@ function hello(x){
 
 
 /** 
-*Shows all available commands
+*Shows a list of all available commands
 *
 *
 * @returns {void}
 */
 function help(){
-  console.log(h);
+  for (var i=0;i<h.length;i++){
+    console.log( "* "+h[i]+"\n")
+}
 }
 
 /** 
@@ -144,7 +148,7 @@ function add(x){
 }
 
 /** 
-*Removes a task accordingly
+*Removes a task from the list accordingly
 *
 * @returns {void}
 */
