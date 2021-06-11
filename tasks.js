@@ -134,14 +134,12 @@ function check(x){
   var done=parseInt(y.slice(6))
   var undo=parseInt(y.slice(8))
   if(y==='check'||y==='uncheck'){
-    console.log(y.slice(5))
     console.log("Please enter the number of the tast you'd like to check/uncheck like the following: (check 1 or uncheck 2)")
   }
   else if (y.slice(0,5)==='check'&& !isNaN(done)){
     if(done>0 && done<=listy.length){
       console.log("true");
       checked.push(done);
-      console.log(checked);
     }
     else{
       console.log("The list has no item with the input number, input 'list' to see tasks.");
@@ -151,7 +149,6 @@ function check(x){
     if(undo>0 && undo<=listy.length){
       console.log("false");
       unchecked.push(undo);
-      console.log(unchecked);
     }
     else{
       console.log("The list has no item with the input number, input 'list' to see tasks.");
