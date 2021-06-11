@@ -51,11 +51,14 @@ function onDataReceived(text) {
   else if(text.toLocaleLowerCase()==='help\n'){
     help()
   }
-  else if(text.toLocaleLowerCase().trim().slice(0,4)==='list'){
+  else if(text.toLocaleLowerCase().trim()==='list'){
     list(text);
   }
   else if (text.toLowerCase().trim().slice(0, 3)==='add'){
     add(text);
+  }
+  else if (text.toLowerCase().trim().slice(0, 6)==='remove'){
+    remove(text);
   }
   else{
     unknownCommand(text);
@@ -103,13 +106,30 @@ function help(){
   console.log(h);
 }
 
-
+/** 
+*Shows a list of tasks
+*
+*
+* @returns {void}
+*/
 function list(x){
   var order=1;
+  var checkbox="[ ] ";
+  if(listy.length==0){
+    console.log("Well seems like you have no tasks, use this free time to read abook or see a friend!");
+  }
+  else{
   for (var i=0;i<listy.length;i++){
-    console.log(order+"-"+listy[i]+"\n")
+    console.log(order+" - "+checkbox+listy[i]+"\n")
     order+=1;
   }
+}
+
+/** 
+*Adds a new task
+*
+* @returns {void}
+*/
 }
 function add(x){
   y=x.toLowerCase().trim();
@@ -123,6 +143,30 @@ function add(x){
   }
 }
 
+/** 
+*Removes a task accordingly
+*
+* @returns {void}
+*/
+function remove(x){
+  if (x.toLowerCase().trim()==='remove'){
+    listy.pop();
+  }
+  else{
+    y=x.toLowerCase().trim();
+    if (y[7]>listy.length){
+      console.log("Sorry the number of the task entered doesn't excist, check tasks with 'list' command");
+    }
+    else{
+    for (var i=0;i<listy.length;i++){
+      if(y[7]==i+1){
+        listy.splice(i,1);
+      }
+    }
+    console.log("The task number: "+y+" has been removed successfully!")
+  }
+}
+}
 /**
  * Exits the application
  *
