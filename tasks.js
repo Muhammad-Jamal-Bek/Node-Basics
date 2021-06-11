@@ -24,9 +24,16 @@ function startApp(name){
 var h=["help: to show this list","quite or exit: to close the app",
 "hello: greets you with or without any value you enter after it!", "list: displays a list of the tasks."
 ,"add: adds a new task to the bottum of the task list",
-"remove: by itself it removes the last item on the list but if you input 'remove number' it removes the item with that number in the list."];
+"remove: by itself it removes the last item on the list but if you input 'remove number' it removes the item with that number in the list."
+,"check/uncheck: sorry but these commands are still being developed"];
 
-var listy=["1st task","2nd task"];
+var fs= require('fs');
+const { finished } = require('stream');
+var data=fs.readFileSync('save.json');
+var listy=JSON.parse(data);
+var checked=[1,2];
+var unchecked=[];
+
 
 /**
  * Decides what to do depending on the data that was received
@@ -54,7 +61,11 @@ function onDataReceived(text) {
     help()
   }
   else if(text.toLocaleLowerCase().trim()==='list'){
-    list(text);
+    list(text,checked,unchecked);
+  }
+  else if(text.toLocaleLowerCase().trim().slice(0,5)=="check"
+  ||text.toLocaleLowerCase().trim().slice(0,7)=='uncheck'){
+    check(text);
   }
   else if (text.toLowerCase().trim().slice(0, 3)==='add'){
     add(text);
@@ -112,32 +123,77 @@ function help(){
     console.log( "* "+h[i]+"\n")
 }
 }
-
 /** 
 *Shows a list of tasks
 *
 *
 * @returns {void}
 */
-function list(x){
+function check(x){
+  var y=x.toLocaleLowerCase().trim();
+  var done=parseInt(y.slice(6))
+  var undo=parseInt(y.slice(8))
+  if(y==='check'||y==='uncheck'){
+    console.log(y.slice(5))
+    console.log("Please enter the number of the tast you'd like to check/uncheck like the following: (check 1 or uncheck 2)")
+  }
+  else if (y.slice(0,5)==='check'&& !isNaN(done)){
+    if(done>0 && done<=listy.length){
+      console.log("true");
+      checked.push(done);
+      console.log(checked);
+    }
+    else{
+      console.log("The list has no item with the input number, input 'list' to see tasks.");
+    }
+  }
+  else if (y.slice(0,7)==='uncheck'&& !isNaN(undo)){
+    if(undo>0 && undo<=listy.length){
+      console.log("false");
+      unchecked.push(undo);
+      console.log(unchecked);
+    }
+    else{
+      console.log("The list has no item with the input number, input 'list' to see tasks.");
+    }
+}
+}
+/** 
+*Shows a list of tasks
+*
+*
+* @returns {void}
+*/
+function list(x,c,u){
+  var y=x.trim();
   var order=1;
   var checkbox="[ ] ";
-  if(listy.length==0){
-    console.log("Well seems like you have no tasks, use this free time to read abook or see a friend!");
-  }
+  if(y==="list"){
+    if(listy.length==0){
+      console.log("Well seems like you have no tasks, use this free time to read abook or see a friend!");
+    }
   else{
-  for (var i=0;i<listy.length;i++){
-    console.log(order+" - "+checkbox+listy[i])
-    order+=1;
+    for (var i=0;i<listy.length;i++){
+      if(c[i]==order){
+        checkbox="[✓] ";
+      }
+      else if(u[i]==order){
+          checkbox="[ ] "
+      }
+      else{
+        checkbox="[ ]"
+      }
+      console.log(order+" - "+checkbox+listy[i])
+      order+=1;
+      }
+    }
+    }
   }
-}
-
 /** 
 *Adds a new task
 *
 * @returns {void}
 */
-}
 function add(x){
   var y=x.toLowerCase().trim();
   if(y==="add"){
@@ -146,8 +202,12 @@ function add(x){
   else{
     var z=y.slice(4, y.length+1);
     listy.push(z.trim());
-    console.log('A new item has been added to tasks! enter "list" to view tasks')
-  }
+    var data= JSON.stringify(listy, null, 2);
+    fs.writeFile('save.json', data, finished);
+    function finished(err){
+      console.log('A new item has been added to tasks! enter "list" to view tasks')
+    }
+  } 
 }
 
 /** 
@@ -170,7 +230,12 @@ function remove(x){
         listy.splice(i,1);
       }
     }
-    console.log("The task number: "+y+" has been removed successfully!")
+    var data= JSON.stringify(listy, null, 2);
+    fs.writeFile('save.json', data, finished);
+    function finished(err){
+      console.log("The task number: "+y+" has been removed successfully!")
+    }
+    
   }
 }
 }
@@ -183,21 +248,30 @@ function edit(x){
   var z=x.slice(5);
   var y=parseInt(z);
   if(x.trim()==='edit'){
-    console.log(y);
     console.log("Please enter a value to be edited!")
     console.log("Note that 'edit new text' will change the last task to new text\nWhile for example 'edit 1 new text' should change the task 1 to new text!")
   }
   else if (isNaN(y)){
-    console.log("You've changed the last task in the list to: "+x.slice(5,x.length));
     console.log("use the list command to view the new list :D");
     listy.pop();
     listy.push(x.slice(5));
+    var data= JSON.stringify(listy, null, 2);
+    fs.writeFile('save.json', data, finished);
+    function finished(err){
+      console.log("You've changed the last task in the list to: "+x.slice(5,x.length));
+    }
   }
   else{
     u=x.slice(7);
-    console.log("You've changed task no."+x[5]+" in the list to: "+x.slice(7));
+    
     console.log("use the list command to view the new list :D");
-    listy.splice(parseInt(x[5])-1,1,u);
+    listy.splice(parseInt(x[5].trim())-1,1,u);
+    var data= JSON.stringify(listy, null, 2);
+    fs.writeFile('save.json', data, finished);
+    function finished(err){
+      console.log("You've changed task no."+x[5]+" in the list to: "+x.slice(7));
+    }
+    
   }
 }
 
