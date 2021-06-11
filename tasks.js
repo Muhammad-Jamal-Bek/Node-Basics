@@ -62,6 +62,9 @@ function onDataReceived(text) {
   else if (text.toLowerCase().trim().slice(0, 6)==='remove'){
     remove(text);
   }
+  else if (text.toLocaleLowerCase().trim().slice(0,4)==='edit'){
+    edit(text);
+  }
   else{
     unknownCommand(text);
   }
@@ -171,6 +174,23 @@ function remove(x){
   }
 }
 }
+/** 
+*Edits a task from the list accordingly!
+*
+* @returns {void}
+*/
+function edit(x){
+  if(x.trim()==='edit'){
+    console.log("Please enter a value to be edited!")
+    console.log("Note that 'edit new text' will change the last task to new text\nWhile for example 'edit 1 new text' should change the task 1 to new text!")
+  }
+  else if (typeof parseInt(x[5])=="number"){
+    console.log("You've changed the last task in the list to: "+x.slice(5,x.length));
+    console.log("use the list command to view the new list :D");
+    listy.splice(-1,1,x.slice(5,x.length));
+  }
+}
+
 /**
  * Exits the application
  *
