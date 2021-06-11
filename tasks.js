@@ -127,7 +127,7 @@ function list(x){
   }
   else{
   for (var i=0;i<listy.length;i++){
-    console.log(order+" - "+checkbox+listy[i]+"\n")
+    console.log(order+" - "+checkbox+listy[i])
     order+=1;
   }
 }
@@ -139,12 +139,12 @@ function list(x){
 */
 }
 function add(x){
-  y=x.toLowerCase().trim();
+  var y=x.toLowerCase().trim();
   if(y==="add"){
     console.log("Please enter a value to be added!")
   }
   else{
-    z=y.slice(4, y.length+1)
+    var z=y.slice(4, y.length+1);
     listy.push(z.trim());
     console.log('A new item has been added to tasks! enter "list" to view tasks')
   }
@@ -160,7 +160,7 @@ function remove(x){
     listy.pop();
   }
   else{
-    y=x.toLowerCase().trim();
+    var y=x.toLowerCase().trim();
     if (y[7]>listy.length){
       console.log("Sorry the number of the task entered doesn't excist, check tasks with 'list' command");
     }
@@ -180,14 +180,24 @@ function remove(x){
 * @returns {void}
 */
 function edit(x){
+  var z=x.slice(5);
+  var y=parseInt(z);
   if(x.trim()==='edit'){
+    console.log(y);
     console.log("Please enter a value to be edited!")
     console.log("Note that 'edit new text' will change the last task to new text\nWhile for example 'edit 1 new text' should change the task 1 to new text!")
   }
-  else if (typeof parseInt(x[5])=="number"){
+  else if (isNaN(y)){
     console.log("You've changed the last task in the list to: "+x.slice(5,x.length));
     console.log("use the list command to view the new list :D");
-    listy.splice(-1,1,x.slice(5,x.length));
+    listy.pop();
+    listy.push(x.slice(5));
+  }
+  else{
+    u=x.slice(7);
+    console.log("You've changed task no."+x[5]+" in the list to: "+x.slice(7));
+    console.log("use the list command to view the new list :D");
+    listy.splice(parseInt(x[5])-1,1,u);
   }
 }
 
