@@ -148,7 +148,7 @@ function add(x){
 }
 
 /** 
-*Removes a task from the list accordingly
+*Removes a task from the list accordingly!
 *
 * @returns {void}
 */
